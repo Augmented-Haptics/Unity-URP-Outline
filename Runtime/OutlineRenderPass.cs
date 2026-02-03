@@ -300,6 +300,8 @@ public sealed class OutlineRenderPass : ScriptableRenderPass
 		context.cmd.SetGlobalColor(OutlineMaskColorId, new Color(1.0f, 0.0f, 0.0f, 0.0f));
 		context.cmd.DrawRendererList(passData.rendererListHandleR);
 
+#if !UNITY_IOS
+		// Disable additinonal channels for performance reasons on iOS
 		context.cmd.SetGlobalColor(OutlineMaskColorId, new Color(0.0f, 1.0f, 0.0f, 0.0f));
 		context.cmd.DrawRendererList(passData.rendererListHandleG);
 
@@ -308,6 +310,7 @@ public sealed class OutlineRenderPass : ScriptableRenderPass
 
 		context.cmd.SetGlobalColor(OutlineMaskColorId, new Color(0.0f, 0.0f, 0.0f, 1.0f));
 		context.cmd.DrawRendererList(passData.rendererListHandleA);
+#endif
 
 		// save the non blurred mask because the previous one will be blurred
 		CommandBuffer cmd = CommandBufferHelpers.GetNativeCommandBuffer(context.cmd);
